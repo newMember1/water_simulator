@@ -1,30 +1,42 @@
 #ifndef OGLWINDOW_H
 #define OGLWINDOW_H
 
-#include<QOpenGLWindow>
+#include<QOpenGLWidget>
 #include<QOpenGLFunctions>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
-class oglWindow: public QOpenGLWindow,
+class oglWindow: public QOpenGLWidget,
         protected QOpenGLFunctions
 {
     Q_OBJECT
 
 public:
+    oglWindow(QWidget * parent = nullptr);
+    void setNormalVis(int state);
+    void setLineVis(int state);
+
+protected:
     void initializeGL() override;
     void paintGL() override;
     void resizeGL(int w, int h) override;
 
-    void initData();
-    oglWindow();
 
 private:
+    bool normalVis = false;
+    bool lineVis = false;
+
+    void initData();
+    void addShaderProgram(std::string shaderProgramName, std::string vertPath, std::string fragPath, std::string geoPath = "");
+    void createBuffer();
+
     void printContextInformation();
 
+    //old version
     QString vertPath;
     QString fragPath;
     QString geoPath;
@@ -42,6 +54,12 @@ private:
 
     std::unique_ptr<QOpenGLBuffer> m_vbo_ptr = nullptr;
     std::unique_ptr<QOpenGLBuffer> m_ebo_ptr = nullptr;
+
+    //new version
+    std::unordered_map<std::string, std::unique_ptr<QOpenGLShaderProgram>> shaderPrograms;
+    std::unique_ptr<QOpenGLBuffer> VBO;
+    std::unique_ptr<QOpenGLBuffer> EBO;
+    std::unique_ptr<QOpenGLVertexArrayObject> VAO;
 
     std::vector<unsigned int> indexes;
     std::vector<float> datas;

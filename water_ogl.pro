@@ -17,9 +17,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    mainwindow.cpp \
     oglwindow.cpp
 
 HEADERS += \
+    mainwindow.h \
     oglwindow.h \
     vertex.h
 
@@ -44,3 +46,6 @@ DISTFILES += \
     shaders/simple.vert \
     shaders/sinwave.frag \
     shaders/sinwave.vert
+
+RESOURCES += \
+    shaders.qrc

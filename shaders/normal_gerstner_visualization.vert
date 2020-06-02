@@ -59,8 +59,8 @@ void main(void)
         float A = waves[i].A;
         float omega = waves[i].omega;
         float phi = waves[i].phi;
-        float Dx = waves[i].Dx;
-        float Dy = waves[i].Dy;
+        float Dx = waves[i].Dxy.x;
+        float Dy = waves[i].Dxy.y;
 
         float Q = 1.0/(omega * A);
         offset.x += Q * A * Dx * cos((Dx * pos.x + Dy * pos.y) * omega + phi * time) / 5;
@@ -75,8 +75,8 @@ void main(void)
         float A = waves[i].A;
         float omega = waves[i].omega;
         float phi = waves[i].phi;
-        float Dx = waves[i].Dx;
-        float Dy = waves[i].Dy;
+        float Dx = waves[i].Dxy.x;
+        float Dy = waves[i].Dxy.y;
 
         float Q = 1.0/(omega * A);
         normal.x -= Dx * omega * A * cos((Dx * pos.x + Dy * pos.y) * omega + phi * time);

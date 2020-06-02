@@ -13,10 +13,263 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>141</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>WaveSelect</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QRadioButton" name="radioButtonSinwave">
+       <property name="text">
+        <string>sinWave</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButtonGerstnerWave">
+       <property name="text">
+        <string>gerstnerWave</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton_3">
+       <property name="text">
+        <string>RadioButton</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QCheckBox" name="lineMode">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>92</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LineMode</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="NormalVis">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>230</y>
+      <width>92</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NormalVis</string>
+    </property>
+   </widget>
+   <widget class="oglWindow" name="openGLWidget">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>611</width>
+      <height>421</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>440</y>
+      <width>716</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="labelWavePara1">
+           <property name="text">
+            <string>wavePara1</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA1"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta1"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega1"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi1"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="labelWavePara2">
+           <property name="text">
+            <string>wavePara2</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA2"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta2"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega2"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi2"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="labelWavePara3">
+           <property name="text">
+            <string>wavePara3</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA3"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta3"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega3"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi3"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="labelWavePara4">
+           <property name="text">
+            <string>wavePara4</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA4"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta4"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega4"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi4"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="labelWavePara5">
+           <property name="text">
+            <string>wavePara5</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA5"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta5"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega5"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi5"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="labelWavePara6">
+           <property name="text">
+            <string>wavePara6</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraA6"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraTheta6"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraOmega6"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="paraPhi6"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>oglWindow</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">oglwindow.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

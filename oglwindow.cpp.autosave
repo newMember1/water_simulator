@@ -28,23 +28,22 @@ void oglWindow::addShaderProgram(std::string shaderProgramName, std::string vert
 
 void oglWindow::createBuffer()
 {
-    qDebug()<<datas.size()<<" "<<indexes.size()<<endl;
-    VAO.reset(new QOpenGLVertexArrayObject());
+//    VAO.reset(new QOpenGLVertexArrayObject());
 
-    VAO->create();
-    VAO->bind();
+//    VAO->create();
+//    VAO->bind();
 
-    VBO.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
-    VBO->create();
-    VBO->bind();
-    VBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
-    VBO->allocate(&datas[0], sizeof(float) * datas.size());
+//    VBO.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
+//    VBO->create();
+//    VBO->bind();
+//    VBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
+//    VBO->allocate(&datas[0], sizeof(float) * datas.size());
 
-    EBO.reset(new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer));
-    EBO->create();
-    EBO->bind();
-    EBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
-    EBO->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
+//    EBO.reset(new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer));
+//    EBO->create();
+//    EBO->bind();
+//    EBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
+//    EBO->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
 
 }
 
