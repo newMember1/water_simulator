@@ -56,32 +56,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QCheckBox" name="lineMode">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>200</y>
-      <width>92</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>LineMode</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="NormalVis">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>230</y>
-      <width>92</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>NormalVis</string>
-    </property>
-   </widget>
    <widget class="oglWindow" name="openGLWidget">
     <property name="geometry">
      <rect>
@@ -92,12 +66,12 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>440</y>
-      <width>716</width>
+      <width>720</width>
       <height>100</height>
      </rect>
     </property>
@@ -114,16 +88,50 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA1"/>
+          <widget class="QDoubleSpinBox" name="paraA1">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.500000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta1"/>
+          <widget class="QDoubleSpinBox" name="paraTheta1">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+           <property name="value">
+            <double>0.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraOmega1"/>
+          <widget class="QDoubleSpinBox" name="paraOmega1">
+           <property name="value">
+            <double>2.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraPhi1"/>
+          <widget class="QDoubleSpinBox" name="paraPhi1">
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -137,16 +145,47 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA2"/>
+          <widget class="QDoubleSpinBox" name="paraA2">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta2"/>
+          <widget class="QDoubleSpinBox" name="paraTheta2">
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+           <property name="value">
+            <double>1.210000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraOmega2"/>
+          <widget class="QDoubleSpinBox" name="paraOmega2">
+           <property name="value">
+            <double>2.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraPhi2"/>
+          <widget class="QDoubleSpinBox" name="paraPhi2">
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -160,16 +199,47 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA3"/>
+          <widget class="QDoubleSpinBox" name="paraA3">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta3"/>
+          <widget class="QDoubleSpinBox" name="paraTheta3">
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+           <property name="value">
+            <double>1.680000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraOmega3"/>
+          <widget class="QDoubleSpinBox" name="paraOmega3">
+           <property name="value">
+            <double>2.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraPhi3"/>
+          <widget class="QDoubleSpinBox" name="paraPhi3">
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -187,16 +257,47 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA4"/>
+          <widget class="QDoubleSpinBox" name="paraA4">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta4"/>
+          <widget class="QDoubleSpinBox" name="paraTheta4">
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+           <property name="value">
+            <double>1.680000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraOmega4"/>
+          <widget class="QDoubleSpinBox" name="paraOmega4">
+           <property name="value">
+            <double>2.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraPhi4"/>
+          <widget class="QDoubleSpinBox" name="paraPhi4">
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -210,10 +311,27 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA5"/>
+          <widget class="QDoubleSpinBox" name="paraA5">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta5"/>
+          <widget class="QDoubleSpinBox" name="paraTheta5">
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega5"/>
@@ -233,10 +351,27 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraA6"/>
+          <widget class="QDoubleSpinBox" name="paraA6">
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="paraTheta6"/>
+          <widget class="QDoubleSpinBox" name="paraTheta6">
+           <property name="maximum">
+            <double>6.280000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.174532000000000</double>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega6"/>
@@ -247,6 +382,71 @@
         </layout>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>98</width>
+      <height>83</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QCheckBox" name="lineMode">
+       <property name="text">
+        <string>LineMode</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="NormalVis">
+       <property name="text">
+        <string>NormalVis</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="stopMode">
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>123</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>MaxWaves</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="maxWavesNumber">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>6</number>
+       </property>
+       <property name="value">
+        <number>4</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

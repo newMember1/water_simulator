@@ -19,7 +19,13 @@ public:
     oglWindow(QWidget * parent = nullptr);
     void setNormalVis(int state);
     void setLineVis(int state);
+    void setStop(int state);
+    void setWaves(int id);
 
+    void updateParas(float A,float theta,float omega,float phi,int ind);
+    void updateWavesNumber(int number);
+    void setWavesNumber(int number);
+    std::vector<float> &getParas();
 protected:
     void initializeGL() override;
     void paintGL() override;
@@ -27,33 +33,17 @@ protected:
 
 
 private:
+    std::string shaderName = "sinWave";
+    std::string debugShaderName = "sinWaveNormalVis";
     bool normalVis = false;
     bool lineVis = false;
+    bool stop = false;
 
     void initData();
     void addShaderProgram(std::string shaderProgramName, std::string vertPath, std::string fragPath, std::string geoPath = "");
     void createBuffer();
 
     void printContextInformation();
-
-    //old version
-    QString vertPath;
-    QString fragPath;
-    QString geoPath;
-
-    QString vertPath_debug;
-    QString fragPath_debug;
-    QString geoPath_debug;
-
-    QString vertPath_simple;
-    QString fragPath_simple;
-
-    QOpenGLVertexArrayObject m_vao;
-    QOpenGLShaderProgram *shaderProgram;
-    QOpenGLShaderProgram *shaderProgram_debug;
-
-    std::unique_ptr<QOpenGLBuffer> m_vbo_ptr = nullptr;
-    std::unique_ptr<QOpenGLBuffer> m_ebo_ptr = nullptr;
 
     //new version
     std::unordered_map<std::string, std::unique_ptr<QOpenGLShaderProgram>> shaderPrograms;
@@ -63,7 +53,9 @@ private:
 
     std::vector<unsigned int> indexes;
     std::vector<float> datas;
+    std::vector<float> waveParas;
     unsigned int dataSize;
+    float maxWaves;
 
     QVector3D eye{0,-3,2};
     QVector3D center{0,0,0};
