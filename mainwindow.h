@@ -20,10 +20,19 @@ public:
 public slots:
     void setNormalVisStatus(int state);
     void setLineModeStatus(int state);
+    void setStopModeStatus(int state);
 
+    void selectWave();
+    void updateMaxWaveNumber();
+    void updateParam1();
+    void updateParam2();
+    void updateParam3();
+    void updateParam4();
+    void updateParam5();
+    void updateParam6();
 private:
     void connectSlots();
-
+    void passInitData(std::vector<float> &paras,int waveNumber);
 };
 
 #endif // MAINWINDOW_H

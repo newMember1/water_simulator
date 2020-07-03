@@ -3,37 +3,53 @@
 #include "vertex.h"
 #include <QDateTime>
 #include <QCoreApplication>
+#include <math.h>
+
 oglWindow::oglWindow(QWidget * parent):QOpenGLWidget(parent)
 {
 
 }
 
-void oglWindow::addShaderProgram(std::string shaderProgramName, std::string vertPath, std::string fragPath, std::string geoPath)
+void oglWindow::addShaderProgram(std::string name, std::string vertPath, std::string fragPath, std::string geoPath)
 {
-    shaderPrograms[shaderProgramName].reset(new QOpenGLShaderProgram());
-    shaderPrograms[shaderProgramName]->addShaderFromSourceFile(QOpenGLShader::Vertex,vertPath.c_str());
-    shaderPrograms[shaderProgramName]->addShaderFromSourceFile(QOpenGLShader::Fragment,fragPath.c_str());
+    shaderPrograms[name].reset(new QOpenGLShaderProgram());
+    shaderPrograms[name]->addShaderFromSourceFile(QOpenGLShader::Vertex,vertPath.c_str());
+    shaderPrograms[name]->addShaderFromSourceFile(QOpenGLShader::Fragment,fragPath.c_str());
     if(!geoPath.empty())
     {
-        shaderPrograms[shaderProgramName]->addShaderFromSourceFile(QOpenGLShader::Geometry, geoPath.c_str());
+        shaderPrograms[name]->addShaderFromSourceFile(QOpenGLShader::Geometry, geoPath.c_str());
     }
-    shaderPrograms[shaderProgramName]->link();
-    shaderPrograms[shaderProgramName]->bind();
-    shaderPrograms[shaderProgramName]->enableAttributeArray(0);
-    shaderPrograms[shaderProgramName]->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
-    shaderPrograms[shaderProgramName]->setUniformValue(shaderPrograms[shaderProgramName]->uniformLocation("model"), model);
-    shaderPrograms[shaderProgramName]->setUniformValue(shaderPrograms[shaderProgramName]->uniformLocation("view"), view);
-    shaderPrograms[shaderProgramName]->setUniformValue(shaderPrograms[shaderProgramName]->uniformLocation("projection"), projection);
+
+    shaderPrograms[name]->link();
+    shaderPrograms[name]->bind();
+    shaderPrograms[name]->enableAttributeArray(0);
+    shaderPrograms[name]->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
+    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("model"), model);
+    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("view"), view);
+    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("projection"), projection);
+    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("maxWaves"),maxWaves);
+
+    std::string A = ".A";
+    std::string omega = ".omega";
+    std::string phi = ".phi";
+    std::string direc = ".Dxy";
+    QVector2D dir;
+    for(int i=0;i<6;++i)
+    {
+        dir[0] = cos(waveParas[i * 4 + 1]);
+        dir[1] = sin(waveParas[i * 4 + 1]);
+        std::string s = "waves[";
+        s+=std::to_string(i) + "]";
+
+        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+A).c_str()),waveParas[i * 4]);
+        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+direc).c_str()),dir);
+        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+omega).c_str()),waveParas[i * 4 + 2]);
+        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+phi).c_str()),waveParas[i * 4 + 3]);
+    }
 }
 
 void oglWindow::createBuffer()
 {
-    qDebug()<<datas.size()<<" "<<indexes.size()<<endl;
-    VAO.reset(new QOpenGLVertexArrayObject());
-
-    VAO->create();
-    VAO->bind();
-
     VBO.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
     VBO->create();
     VBO->bind();
@@ -46,6 +62,9 @@ void oglWindow::createBuffer()
     EBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
     EBO->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
 
+    VAO.reset(new QOpenGLVertexArrayObject());
+    VAO->create();
+    VAO->bind();
 }
 
 void oglWindow::initializeGL()
@@ -54,71 +73,13 @@ void oglWindow::initializeGL()
     printContextInformation();
 
     initData();
-
+    createBuffer();
     addShaderProgram("sinWave",":/shaderRes/shaders/sinwave.vert",":/shaderRes/shaders/sinwave.frag");
     addShaderProgram("sinWaveNormalVis",":/shaderRes/shaders/normal_sinwave_visualization.vert",":/shaderRes/shaders/normal_sinwave_visualization.frag",":/shaderRes/shaders/normal_sinwave_visualization.geom");
     addShaderProgram("gerstnerWave",":/shaderRes/shaders/gerstnerwave.vert",":/shaderRes/shaders/gerstnerwave.frag");
     addShaderProgram("gerstnerWaveNormalVis",":/shaderRes/shaders/normal_gerstner_visualization.vert",":/shaderRes/shaders/normal_gerstner_visualization.frag",":/shaderRes/shaders/normal_gerstner_visualization.geom");
 
-    createBuffer();
     glClearColor(0.0f, 0.3f, 0.0f, 1.0f);
-    {
-        //create shader program
-        shaderProgram = new QOpenGLShaderProgram();
-        shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, vertPath.toStdString().c_str());
-        shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, fragPath.toStdString().c_str());
-        if(!geoPath.isEmpty())
-        {
-            shaderProgram->addShaderFromSourceFile(QOpenGLShader::Geometry, geoPath.toStdString().c_str());
-        }
-        shaderProgram->link();
-        shaderProgram->bind();
-
-        //normla debug shader
-        shaderProgram_debug = new QOpenGLShaderProgram();
-        shaderProgram_debug->addShaderFromSourceFile(QOpenGLShader::Vertex, vertPath_debug.toStdString().c_str());
-        shaderProgram_debug->addShaderFromSourceFile(QOpenGLShader::Fragment,fragPath_debug.toStdString().c_str());
-        shaderProgram_debug->addShaderFromSourceFile(QOpenGLShader::Geometry,geoPath_debug.toStdString().c_str());
-        shaderProgram_debug->bind();
-        shaderProgram_debug->link();
-
-        //create buffer
-        m_vbo_ptr.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
-        m_vbo_ptr->create();
-        m_vbo_ptr->bind();
-        m_vbo_ptr->setUsagePattern(QOpenGLBuffer::StaticDraw);
-        m_vbo_ptr->allocate(&datas[0], sizeof(float) * datas.size());
-
-        m_ebo_ptr.reset(new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer));
-        m_ebo_ptr->create();
-        m_ebo_ptr->bind();
-        m_ebo_ptr->setUsagePattern(QOpenGLBuffer::StaticDraw);
-        m_ebo_ptr->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
-
-        //create vertex array object
-        m_vao.create();
-        m_vao.bind();
-
-
-        shaderProgram->bind();
-        shaderProgram->enableAttributeArray(0);
-        shaderProgram->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
-        shaderProgram->setUniformValue(shaderProgram->uniformLocation("model"), model);
-        shaderProgram->setUniformValue(shaderProgram->uniformLocation("view"), view);
-        shaderProgram->setUniformValue(shaderProgram->uniformLocation("projection"), projection);
-
-        shaderProgram_debug->bind();
-        shaderProgram_debug->enableAttributeArray(0);
-        shaderProgram_debug->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
-        shaderProgram_debug->setUniformValue(shaderProgram_debug->uniformLocation("model"), model);
-        shaderProgram_debug->setUniformValue(shaderProgram_debug->uniformLocation("view"), view);
-        shaderProgram_debug->setUniformValue(shaderProgram_debug->uniformLocation("projection"), projection);
-
-        m_vao.release();
-        m_vbo_ptr.release();
-        shaderProgram->release();
-        shaderProgram_debug->release();
-    }
 }
 
 void oglWindow::resizeGL(int w, int h)
@@ -142,28 +103,28 @@ void oglWindow::paintGL()
     {
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
-    shaderProgram->bind();
-    shaderProgram->setUniformValue(shaderProgram->uniformLocation("time"),time);
+    shaderPrograms[shaderName]->bind();
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation("time"),time);
     {
-        m_vao.bind();
+        VAO->bind();
         glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
-        m_vao.release();
     }
 
-//    if(normalVis)
-//    {
-//        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-//        shaderProgram_debug->bind();
-//        shaderProgram_debug->setUniformValue(shaderProgram_debug->uniformLocation("time"),time);
-//        {
-//            m_vao.bind();
-//            glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
-//            m_vao.release();
-//        }
-//        shaderProgram_debug->release();
-//    }
+    if(normalVis)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        shaderPrograms[debugShaderName]->bind();
+        shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation("time"),time);
+        {
+            VAO->bind();
+            glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
+        }
+    }
 
-    QMetaObject::invokeMethod(this,"update",Qt::QueuedConnection);
+    if(!stop)
+    {
+        QMetaObject::invokeMethod(this,"update",Qt::QueuedConnection);
+    }
 }
 
 void oglWindow::initData()
@@ -203,24 +164,13 @@ void oglWindow::initData()
             indexes.push_back(ic);
         }
 
-    vertPath = "/home/zdxiao/Desktop/water_ogl/shaders/gerstnerwave.vert";
-    fragPath = "/home/zdxiao/Desktop/water_ogl/shaders/gerstnerwave.frag";
-
-    vertPath_debug = "/home/zdxiao/Desktop/water_ogl/shaders/normal_gerstner_visualization.vert";
-    fragPath_debug = "/home/zdxiao/Desktop/water_ogl/shaders/normal_gerstner_visualization.frag";
-    geoPath_debug  = "/home/zdxiao/Desktop/water_ogl/shaders/normal_gerstner_visualization.geom";
-
     //config model and projection matrix
     projection.perspective(45.0f,static_cast<float>(this->width())/static_cast<float>(this->height()),0.1f,100.0f);
     view.lookAt(eye,center,up);
-    qDebug()<<"model: "<<model<<endl;
-    qDebug()<<"view: "<<view<<endl;
-    qDebug()<<"projection: "<<projection<<endl;
 }
 
 void oglWindow::setLineVis(int state)
 {
-    qDebug()<<"setlineVis..."<<endl;
     if(state == Qt::Checked)
         lineVis = true;
     else
@@ -233,6 +183,82 @@ void oglWindow::setNormalVis(int state)
         normalVis = true;
     else
         normalVis = false;
+}
+
+void oglWindow::setStop(int state)
+{
+    if(state == Qt::Checked)
+        stop = true;
+    else
+    {
+        stop = false;
+        update();
+    }
+}
+
+void oglWindow::setWaves(int id)
+{
+    qDebug()<<"id is: "<<id<<endl;
+    if(id == 0)
+    {
+        shaderName = "sinWave";
+        debugShaderName = "sinWaveNormalVis";
+    }
+    else if(id == 1)
+    {
+        shaderName ="gerstnerWave";
+        debugShaderName = "gerstnerWaveNormalVis";
+    }
+}
+
+void oglWindow::updateParas(float A, float theta, float omega, float phi, int ind)
+{
+    waveParas[4 * ind] = A;
+    waveParas[4 * ind + 1] = theta;
+    waveParas[4 * ind + 2] = omega;
+    waveParas[4 * ind + 3] = phi;
+    float dX = cos(theta);
+    float dY = sin(theta);
+
+    std::string sA = ".A";
+    std::string sOmega = ".omega";
+    std::string sPhi = ".phi";
+    std::string sDirec = ".Dxy";
+    std::string sS = "waves[";
+    sS+=std::to_string(ind) + "]";
+    QVector2D dir;
+    dir[0] = dX;
+    dir[1] = dY;
+    shaderPrograms[shaderName]->bind();
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation((sS+sA).c_str()),A);
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation((sS+sDirec).c_str()),dir);
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation((sS+sOmega).c_str()),omega);
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation((sS+sPhi).c_str()),phi);
+
+    shaderPrograms[debugShaderName]->bind();
+    shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation((sS+sA).c_str()),A);
+    shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation((sS+sDirec).c_str()),dir);
+    shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation((sS+sOmega).c_str()),omega);
+    shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation((sS+sPhi).c_str()),phi);
+}
+
+void oglWindow::updateWavesNumber(int number)
+{
+    setWavesNumber(number);
+    shaderPrograms[shaderName]->bind();
+    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation("maxWaves"),maxWaves);
+    shaderPrograms[debugShaderName]->bind();
+    shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation("maxWaves"),maxWaves);
+}
+
+void oglWindow::setWavesNumber(int number)
+{
+    maxWaves = number;
+}
+
+std::vector<float> &oglWindow::getParas()
+{
+    return this->waveParas;
 }
 
 void oglWindow::printContextInformation()

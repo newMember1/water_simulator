@@ -22,13 +22,4 @@ void main(void)
     vec3 specular = specularStrength * spec *lightColor;
 
     fColor = vec4(ambient + diffuse + specular,1.0);
-
-//    if(originNormal.y<0&&originNormal.x<0)
-//        fColor = vec4(1.0,0.0,0.0,1.0);
-//    else if(originNormal.y<0)
-//        fColor = vec4(0.0,1.0,0.0,1.0);
-//    else if(originNormal.x<0)
-//        fColor = vec4(0.0,0.0,1.0,1.0);
-//    else
-//        fColor = vec4(0.1,0.1,0.1,1.0);
 }
