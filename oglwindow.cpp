@@ -130,7 +130,7 @@ void oglWindow::paintGL()
 void oglWindow::initData()
 {
     //generate a n*n grid
-    int n = 50;
+    int n = 100;
     float delta = 3.0 / (n - 1);
 
     for(int i=0;i<n;++i)

@@ -28,7 +28,7 @@ void main(void)
     vec3 pos = aPos;
     for(int i=0;i<maxWaves;++i)
     {
-        pos.y += waves[i].A * sin((pos.x * waves[i].Dxy.x + pos.y * waves[i].Dxy.y) * waves[i].omega + time * waves[i].phi);
+        pos.z += waves[i].A * sin((pos.x * waves[i].Dxy.x + pos.y * waves[i].Dxy.y) * waves[i].omega + time * waves[i].phi);
     }
 
     vec3 normal=vec3(0,0,1);

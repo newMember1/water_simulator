@@ -99,7 +99,7 @@
             <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <double>0.500000000000000</double>
+            <double>0.100000000000000</double>
            </property>
           </widget>
          </item>
@@ -115,21 +115,21 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>0.000000000000000</double>
+            <double>1.670000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega1">
            <property name="value">
-            <double>2.000000000000000</double>
+            <double>5.700000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraPhi1">
            <property name="value">
-            <double>1.000000000000000</double>
+            <double>1.070000000000000</double>
            </property>
           </widget>
          </item>
@@ -156,7 +156,7 @@
             <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <double>0.100000000000000</double>
+            <double>0.080000000000000</double>
            </property>
           </widget>
          </item>
@@ -169,21 +169,21 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>1.210000000000000</double>
+            <double>0.550000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega2">
            <property name="value">
-            <double>2.000000000000000</double>
+            <double>10.500000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraPhi2">
            <property name="value">
-            <double>1.000000000000000</double>
+            <double>0.700000000000000</double>
            </property>
           </widget>
          </item>
@@ -210,7 +210,7 @@
             <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <double>0.100000000000000</double>
+            <double>0.020000000000000</double>
            </property>
           </widget>
          </item>
@@ -223,21 +223,21 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>1.680000000000000</double>
+            <double>0.490000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega3">
            <property name="value">
-            <double>2.000000000000000</double>
+            <double>12.500000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraPhi3">
            <property name="value">
-            <double>1.000000000000000</double>
+            <double>0.160000000000000</double>
            </property>
           </widget>
          </item>
@@ -268,7 +268,7 @@
             <double>0.100000000000000</double>
            </property>
            <property name="value">
-            <double>0.100000000000000</double>
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
@@ -281,21 +281,21 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>1.680000000000000</double>
+            <double>2.140000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega4">
            <property name="value">
-            <double>2.000000000000000</double>
+            <double>17.500000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraPhi4">
            <property name="value">
-            <double>1.000000000000000</double>
+            <double>0.500000000000000</double>
            </property>
           </widget>
          </item>
@@ -320,6 +320,9 @@
            </property>
            <property name="singleStep">
             <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
@@ -360,6 +363,9 @@
            </property>
            <property name="singleStep">
             <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.010000000000000</double>
            </property>
           </widget>
          </item>
@@ -418,7 +424,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
