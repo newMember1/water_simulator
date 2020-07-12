@@ -55,7 +55,7 @@ private:
     std::vector<float> datas;
     std::vector<float> waveParas;
     unsigned int dataSize;
-    float maxWaves;
+    unsigned int maxWaves;
 
     QVector3D eye{0,-3,2};
     QVector3D center{0,0,0};

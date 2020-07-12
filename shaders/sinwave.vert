@@ -6,7 +6,6 @@ uniform mat4 view;
 uniform mat4 projection;
 
 //simple sin wave
-//need to consider some wave direction
 struct wave
 {
     float A;
@@ -16,9 +15,9 @@ struct wave
 };
 
 uniform wave waves[6];
-uniform float maxWaves;
-
+uniform int maxWaves;
 uniform float time;
+
 out vec3 originNormal;
 out vec3 originPos;
 

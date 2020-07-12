@@ -74,10 +74,11 @@ void oglWindow::initializeGL()
 
     initData();
     createBuffer();
-    addShaderProgram("sinWave",":/shaderRes/shaders/sinwave.vert",":/shaderRes/shaders/sinwave.frag");
-    addShaderProgram("sinWaveNormalVis",":/shaderRes/shaders/normal_sinwave_visualization.vert",":/shaderRes/shaders/normal_sinwave_visualization.frag",":/shaderRes/shaders/normal_sinwave_visualization.geom");
-    addShaderProgram("gerstnerWave",":/shaderRes/shaders/gerstnerwave.vert",":/shaderRes/shaders/gerstnerwave.frag");
-    addShaderProgram("gerstnerWaveNormalVis",":/shaderRes/shaders/normal_gerstner_visualization.vert",":/shaderRes/shaders/normal_gerstner_visualization.frag",":/shaderRes/shaders/normal_gerstner_visualization.geom");
+    addShaderProgram("sinWave",":/shaderRes/shaders/sinwave.vert",":/shaderRes/shaders/waterColor.frag");
+    addShaderProgram("sinWaveNormalVis",":/shaderRes/shaders/normal_sinwave_visualization.vert",":/shaderRes/shaders/normal_visualization.frag",":/shaderRes/shaders/normal_visualization.geom");
+
+    addShaderProgram("gerstnerWave",":/shaderRes/shaders/gerstnerwave.vert",":/shaderRes/shaders/waterColor.frag");
+    addShaderProgram("gerstnerWaveNormalVis",":/shaderRes/shaders/normal_gerstner_visualization.vert",":/shaderRes/shaders/normal_visualization.frag",":/shaderRes/shaders/normal_visualization.geom");
 
     glClearColor(0.0f, 0.3f, 0.0f, 1.0f);
     glEnable(GL_CULL_FACE);
@@ -132,7 +133,7 @@ void oglWindow::paintGL()
 void oglWindow::initData()
 {
     //generate a n*n grid
-    int n = 100;
+    int n = 50;
     float delta = 3.0 / (n - 1);
 
     for(int i=0;i<n;++i)

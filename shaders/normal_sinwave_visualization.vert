@@ -20,7 +20,7 @@ struct wave
 };
 
 uniform wave waves[6];
-uniform float maxWaves;
+uniform int maxWaves;
 uniform float time;
 
 void main(void)

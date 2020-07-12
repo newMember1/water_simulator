@@ -1,16 +1,11 @@
 <RCC>
     <qresource prefix="/shaderRes">
-        <file>shaders/gerstnerwave.frag</file>
-        <file>shaders/gerstnerwave.vert</file>
-        <file>shaders/normal_gerstner_visualization.frag</file>
-        <file>shaders/normal_gerstner_visualization.geom</file>
-        <file>shaders/normal_gerstner_visualization.vert</file>
-        <file>shaders/normal_sinwave_visualization.frag</file>
-        <file>shaders/normal_sinwave_visualization.geom</file>
-        <file>shaders/normal_sinwave_visualization.vert</file>
-        <file>shaders/simple.frag</file>
-        <file>shaders/simple.vert</file>
-        <file>shaders/sinwave.frag</file>
         <file>shaders/sinwave.vert</file>
+        <file>shaders/waterColor.frag</file>
+        <file>shaders/gerstnerwave.vert</file>
+        <file>shaders/normal_gerstner_visualization.vert</file>
+        <file>shaders/normal_sinwave_visualization.vert</file>
+        <file>shaders/normal_visualization.frag</file>
+        <file>shaders/normal_visualization.geom</file>
     </qresource>
 </RCC>
