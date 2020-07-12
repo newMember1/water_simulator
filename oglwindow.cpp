@@ -80,6 +80,8 @@ void oglWindow::initializeGL()
     addShaderProgram("gerstnerWaveNormalVis",":/shaderRes/shaders/normal_gerstner_visualization.vert",":/shaderRes/shaders/normal_gerstner_visualization.frag",":/shaderRes/shaders/normal_gerstner_visualization.geom");
 
     glClearColor(0.0f, 0.3f, 0.0f, 1.0f);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 
 void oglWindow::resizeGL(int w, int h)

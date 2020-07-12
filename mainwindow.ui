@@ -115,7 +115,7 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>1.670000000000000</double>
+            <double>1.750000000000000</double>
            </property>
           </widget>
          </item>
@@ -169,14 +169,14 @@
             <double>0.174532000000000</double>
            </property>
            <property name="value">
-            <double>0.550000000000000</double>
+            <double>2.300000000000000</double>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega2">
            <property name="value">
-            <double>10.500000000000000</double>
+            <double>6.500000000000000</double>
            </property>
           </widget>
          </item>
@@ -230,7 +230,7 @@
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega3">
            <property name="value">
-            <double>12.500000000000000</double>
+            <double>9.500000000000000</double>
            </property>
           </widget>
          </item>
@@ -288,7 +288,7 @@
          <item>
           <widget class="QDoubleSpinBox" name="paraOmega4">
            <property name="value">
-            <double>17.500000000000000</double>
+            <double>9.500000000000000</double>
            </property>
           </widget>
          </item>
