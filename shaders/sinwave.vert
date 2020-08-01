@@ -40,6 +40,5 @@ void main(void)
     originNormal = normal;
     originPos = pos;
 
-    normal = vec3(projection * view * model * vec4(normal,1.0));
     gl_Position = projection * view * model * vec4(pos,1.0);
 }

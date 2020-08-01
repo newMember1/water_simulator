@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QCoreApplication>
 #include <math.h>
+#include <QOpenGLExtraFunctions>
 
 oglWindow::oglWindow(QWidget * parent):QOpenGLWidget(parent)
 {
@@ -19,37 +20,70 @@ void oglWindow::addShaderProgram(std::string name, std::string vertPath, std::st
     {
         shaderPrograms[name]->addShaderFromSourceFile(QOpenGLShader::Geometry, geoPath.c_str());
     }
-
     shaderPrograms[name]->link();
-    shaderPrograms[name]->bind();
-    shaderPrograms[name]->enableAttributeArray(0);
-    shaderPrograms[name]->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
-    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("model"), model);
-    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("view"), view);
-    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("projection"), projection);
-    shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation("maxWaves"),maxWaves);
+}
 
-    std::string A = ".A";
-    std::string omega = ".omega";
-    std::string phi = ".phi";
-    std::string direc = ".Dxy";
-    QVector2D dir;
-    for(int i=0;i<6;++i)
+void oglWindow::setShaderAttribute(std::string vaoName)
+{
+    for(auto it = shaderPrograms.begin();it != shaderPrograms.end(); ++it)
     {
-        dir[0] = cos(waveParas[i * 4 + 1]);
-        dir[1] = sin(waveParas[i * 4 + 1]);
-        std::string s = "waves[";
-        s+=std::to_string(i) + "]";
+        if(vaoName == "VAO" && it->first != "oceanCpu" && it->first != "oceanCpuNormalVis")
+        {
+            it->second->bind();
+            it->second->enableAttributeArray(0);
+            it->second->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
+        }
+        else if(vaoName == "oceanCpuVAO" && (it->first == "oceanCpu" || it->first == "oceanCpuNormalVis"))
+        {
+            it->second->bind();
+            it->second->enableAttributeArray(0);
+            it->second->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(float) * 3);
+            it->second->enableAttributeArray(1);
+            it->second->setAttributeBuffer(1, GL_FLOAT, datas.size() * sizeof(float), 3, sizeof(float) * 3);
+        }
+    }
+}
 
-        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+A).c_str()),waveParas[i * 4]);
-        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+direc).c_str()),dir);
-        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+omega).c_str()),waveParas[i * 4 + 2]);
-        shaderPrograms[name]->setUniformValue(shaderPrograms[name]->uniformLocation((s+phi).c_str()),waveParas[i * 4 + 3]);
+void oglWindow::setShaderUniforms()
+{
+    for(auto it = shaderPrograms.begin(); it != shaderPrograms.end(); ++it)
+    {
+        it->second->bind();
+        it->second->setUniformValue(it->second->uniformLocation("model"), model);
+        it->second->setUniformValue(it->second->uniformLocation("view"), view);
+        it->second->setUniformValue(it->second->uniformLocation("projection"), projection);
+        it->second->setUniformValue(it->second->uniformLocation("maxWaves"),maxWaves);
+
+        if(it->first != "oceanCpu" && it->first != "oceanCpuNormalVis")
+        {
+            std::string A = ".A";
+            std::string omega = ".omega";
+            std::string phi = ".phi";
+            std::string direc = ".Dxy";
+            QVector2D dir;
+            for(int i=0;i<6;++i)
+            {
+                dir[0] = cos(waveParas[i * 4 + 1]);
+                dir[1] = sin(waveParas[i * 4 + 1]);
+                std::string s = "waves[";
+                s+=std::to_string(i) + "]";
+
+                it->second->setUniformValue(it->second->uniformLocation((s+A).c_str()),waveParas[i * 4]);
+                it->second->setUniformValue(it->second->uniformLocation((s+direc).c_str()),dir);
+                it->second->setUniformValue(it->second->uniformLocation((s+omega).c_str()),waveParas[i * 4 + 2]);
+                it->second->setUniformValue(it->second->uniformLocation((s+phi).c_str()),waveParas[i * 4 + 3]);
+            }
+        }
     }
 }
 
 void oglWindow::createBuffer()
 {
+    //common buffer setting
+    VAO.reset(new QOpenGLVertexArrayObject());
+    VAO->create();
+    VAO->bind();
+
     VBO.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
     VBO->create();
     VBO->bind();
@@ -62,9 +96,32 @@ void oglWindow::createBuffer()
     EBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
     EBO->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
 
-    VAO.reset(new QOpenGLVertexArrayObject());
-    VAO->create();
-    VAO->bind();
+    setShaderAttribute("VAO");
+    EBO->release();
+    VBO->release();
+    VAO->release();
+
+    //ocean cpu buffer setting
+    oceanCpuVAO.reset(new QOpenGLVertexArrayObject());
+    oceanCpuVAO->create();
+    oceanCpuVAO->bind();
+
+    oceanCpuVBO.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
+    oceanCpuVBO->create();
+    oceanCpuVBO->bind();
+    oceanCpuVBO->setUsagePattern(QOpenGLBuffer::DynamicDraw);
+    oceanCpuVBO->allocate(datas.size() * sizeof(float) * 2);
+
+    oceanCpuEBO.reset(new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer));
+    oceanCpuEBO->create();
+    oceanCpuEBO->bind();
+    oceanCpuEBO->setUsagePattern(QOpenGLBuffer::StaticDraw);
+    oceanCpuEBO->allocate(&indexes[0], sizeof(unsigned int) * indexes.size());
+
+    setShaderAttribute("oceanCpuVAO");
+    oceanCpuEBO->release();
+    oceanCpuVBO->release();
+    oceanCpuVAO->release();
 }
 
 void oglWindow::initializeGL()
@@ -72,13 +129,23 @@ void oglWindow::initializeGL()
     initializeOpenGLFunctions();
     printContextInformation();
 
+    glEnable(GL_DEBUG_OUTPUT);
+
     initData();
-    createBuffer();
+    //sinwave
     addShaderProgram("sinWave",":/shaderRes/shaders/sinwave.vert",":/shaderRes/shaders/waterColor.frag");
     addShaderProgram("sinWaveNormalVis",":/shaderRes/shaders/normal_sinwave_visualization.vert",":/shaderRes/shaders/normal_visualization.frag",":/shaderRes/shaders/normal_visualization.geom");
 
+    //gerstnerwave
     addShaderProgram("gerstnerWave",":/shaderRes/shaders/gerstnerwave.vert",":/shaderRes/shaders/waterColor.frag");
     addShaderProgram("gerstnerWaveNormalVis",":/shaderRes/shaders/normal_gerstner_visualization.vert",":/shaderRes/shaders/normal_visualization.frag",":/shaderRes/shaders/normal_visualization.geom");
+
+    //oceanCpu
+    addShaderProgram("oceanCpu",":/shaderRes/shaders/ocean_cpu.vert",":/shaderRes/shaders/waterColor.frag");
+    addShaderProgram("oceanCpuNormalVis",":/shaderRes/shaders/normal_ocean_cpu_visualization.vert",":/shaderRes/shaders/normal_visualization.frag",":/shaderRes/shaders/normal_visualization.geom");
+
+    createBuffer();
+    setShaderUniforms();
 
     glClearColor(0.0f, 0.3f, 0.0f, 1.0f);
     glEnable(GL_CULL_FACE);
@@ -98,6 +165,7 @@ void oglWindow::paintGL()
     QDateTime cTime = QDateTime::currentDateTime();
     float time = static_cast<float>(QDateTime::currentMSecsSinceEpoch() /200 % 500);
 
+    //enable line mode
     if(lineVis)
     {
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -106,21 +174,65 @@ void oglWindow::paintGL()
     {
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     }
-    shaderPrograms[shaderName]->bind();
-    shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation("time"),time);
+
+    //oceanCpu
+    if(refreshGrid)
     {
+        //use glbuffersubdata
+        oceanCpuVAO->bind();
+        shaderPrograms[shaderName]->bind();
+
+        oceanGenerater->HDNs(time);
+        auto verts = oceanGenerater->getNewVertexs();
+        auto ns = oceanGenerater->getNormals();
+
+        oceanCpuVBO->bind();
+        oceanCpuVBO->write(0, &verts[0], verts.size() * sizeof(float));
+        oceanCpuVBO->write(verts.size() * sizeof(float), &ns[0], ns.size() * sizeof(float));
+
+        glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, &indexes[0]);
+
+        oceanCpuVBO->release();
+        shaderPrograms[shaderName]->release();
+        oceanCpuVAO->release();
+    }
+    else
+    {
+        //normally draw water mesh
         VAO->bind();
-        glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
+        shaderPrograms[shaderName]->bind();
+
+        shaderPrograms[shaderName]->setUniformValue(shaderPrograms[shaderName]->uniformLocation("time"),time);
+        glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, &indexes[0]);
+
+        shaderPrograms[shaderName]->release();
+        VAO->release();
     }
 
+    //draw normal
     if(normalVis)
     {
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-        shaderPrograms[debugShaderName]->bind();
-        shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation("time"),time);
+        if(refreshGrid)
         {
+            shaderPrograms[debugShaderName]->bind();
+            oceanCpuVAO->bind();
+            oceanCpuVBO->bind();
+            auto verts = oceanGenerater->getNewVertexs();
+            auto ns = oceanGenerater->getNormals();
+            oceanCpuVBO->write(0, &verts[0], verts.size() * sizeof(float));
+            oceanCpuVBO->write(verts.size() * sizeof(float), &ns[0], ns.size() * sizeof(float));
+            glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
+            oceanCpuVBO->release();
+            oceanCpuVAO->release();
+        }
+        else
+        {
+            shaderPrograms[debugShaderName]->bind();
+            shaderPrograms[debugShaderName]->setUniformValue(shaderPrograms[debugShaderName]->uniformLocation("time"),time);
             VAO->bind();
             glDrawElements(GL_TRIANGLES,indexes.size(),GL_UNSIGNED_INT,&indexes[0]);
+            VAO->release();
         }
     }
 
@@ -128,39 +240,44 @@ void oglWindow::paintGL()
     {
         QMetaObject::invokeMethod(this,"update",Qt::QueuedConnection);
     }
+
 }
 
 void oglWindow::initData()
 {
     //generate a n*n grid
-    int n = 50;
-    float delta = 3.0 / (n - 1);
+    this->gridN = 50;
+    this->gridLx = 3.0;
+    this->gridLy = 3.0;
+    float deltaX = this->gridLx / this->gridN;
+    float deltaY = this->gridLy / this->gridN;
 
-    for(int i=0;i<n;++i)
-        for(int j=0;j<n;++j)
+    for(int i=0;i<gridN;++i)
+        for(int j=0;j<gridN;++j)
         {
             float x,y,z;
-            x = -1.5 + delta * j;
-            y = -1.5 + delta * i;
+            x = -gridLx / 2 + deltaX * j;
+            y = -gridLy / 2 + deltaY * i;
+
             z = 0;
             datas.push_back(x);
             datas.push_back(y);
             datas.push_back(z);
         }
 
-    for(int i=0;i<n-1;++i)
-        for(int j=0;j<n-1;++j)
+    for(int i=0;i<gridN-1;++i)
+        for(int j=0;j<gridN-1;++j)
         {
-            unsigned int ia = j + i * n;
+            unsigned int ia = j + i * gridN;
             unsigned int ib = ia + 1;
-            unsigned int ic = ia + n;
+            unsigned int ic = ia + gridN;
 
             indexes.push_back(ia);
             indexes.push_back(ib);
             indexes.push_back(ic);
 
             ia = ib;
-            ib = ia + n;
+            ib = ia + gridN;
             ic = ib -1;
             indexes.push_back(ia);
             indexes.push_back(ib);
@@ -201,16 +318,25 @@ void oglWindow::setStop(int state)
 
 void oglWindow::setWaves(int id)
 {
-    qDebug()<<"id is: "<<id<<endl;
     if(id == 0)
     {
+        refreshGrid = false;
         shaderName = "sinWave";
         debugShaderName = "sinWaveNormalVis";
     }
     else if(id == 1)
     {
-        shaderName ="gerstnerWave";
+        refreshGrid = false;
+        shaderName = "gerstnerWave";
         debugShaderName = "gerstnerWaveNormalVis";
+    }
+    else if(id == 2)
+    {
+        refreshGrid = true;
+        if(!oceanGenerater)
+            initOceanVertexes();
+        shaderName = "oceanCpu";
+        debugShaderName = "oceanCpuNormalVis";
     }
 }
 
@@ -262,6 +388,11 @@ void oglWindow::setWavesNumber(int number)
 std::vector<float> &oglWindow::getParas()
 {
     return this->waveParas;
+}
+
+void oglWindow::initOceanVertexes()
+{
+    this->oceanGenerater.reset(new ocean_cpu(gridLx, gridLy, gridN, gridN, gridA, gridDw, gridVw, datas));
 }
 
 void oglWindow::printContextInformation()

@@ -18,10 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    ocean_cpu.cpp \
     oglwindow.cpp
 
 HEADERS += \
     mainwindow.h \
+    ocean_cpu.h \
     oglwindow.h \
     vertex.h
 
@@ -34,18 +36,21 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    shaders/gerstnerwave.frag \
     shaders/gerstnerwave.vert \
-    shaders/normal_gerstner_visualization.frag \
     shaders/normal_gerstner_visualization.geom \
     shaders/normal_gerstner_visualization.vert \
+    shaders/normal_ocean_cpu_visualization.vert \
     shaders/normal_sinwave_visualization.frag \
     shaders/normal_sinwave_visualization.geom \
     shaders/normal_sinwave_visualization.vert \
-    shaders/simple.frag \
-    shaders/simple.vert \
-    shaders/sinwave.frag \
-    shaders/sinwave.vert
+    shaders/normal_visualization.frag \
+    shaders/normal_visualization.geom \
+    shaders/ocean_cpu.frag \
+    shaders/ocean_cpu.vert \
+    shaders/phillipsspectrum_old.vert \
+    shaders/sinwave.vert \
+    shaders/sinwave.vert \
+    shaders/waterColor.frag
 
 RESOURCES += \
     shaders.qrc

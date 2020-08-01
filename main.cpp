@@ -12,11 +12,6 @@ int main(int argc, char *argv[])
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setVersion(3,3);
 
-//    oglWindow w;
-//    w.setFormat(format);
-//    w.resize(QSize(800,600));
-//    w.show();
-
     MainWindow window;
     window.show();
     return a.exec();

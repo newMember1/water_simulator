@@ -7,5 +7,9 @@
         <file>shaders/normal_sinwave_visualization.vert</file>
         <file>shaders/normal_visualization.frag</file>
         <file>shaders/normal_visualization.geom</file>
+        <file>shaders/ocean_cpu.frag</file>
+        <file>shaders/ocean_cpu.vert</file>
+        <file>shaders/phillipsspectrum_old.vert</file>
+        <file>shaders/normal_ocean_cpu_visualization.vert</file>
     </qresource>
 </RCC>

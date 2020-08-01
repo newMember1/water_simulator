@@ -26,6 +26,7 @@ void MainWindow::connectSlots()
     connect(UI->stopMode,SIGNAL(stateChanged(int)),this,SLOT(setStopModeStatus(int)));
     connect(UI->radioButtonSinwave,SIGNAL(clicked(bool)),this,SLOT(selectWave()));
     connect(UI->radioButtonGerstnerWave,SIGNAL(clicked(bool)),this,SLOT(selectWave()));
+    connect(UI->radioButtonStatisticWave,SIGNAL(clicked(bool)),this,SLOT(selectWave()));
     connect(UI->maxWavesNumber,SIGNAL(valueChanged(int)),this,SLOT(updateMaxWaveNumber()));
 
     //set 6 wave paras
@@ -81,7 +82,7 @@ void MainWindow::selectWave()
         this->ui->openGLWidget->setWaves(0);
     else if(this->ui->radioButtonGerstnerWave->isChecked())
         this->ui->openGLWidget->setWaves(1);
-    else
+    else if(this->ui->radioButtonStatisticWave->isChecked())
         this->ui->openGLWidget->setWaves(2);
 }
 

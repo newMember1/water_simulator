@@ -1,15 +1,15 @@
 #ifndef OGLWINDOW_H
 #define OGLWINDOW_H
 
-#include<QOpenGLWidget>
-#include<QOpenGLFunctions>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 #include <vector>
 #include <memory>
 #include <unordered_map>
-
+#include "ocean_cpu.h"
 class oglWindow: public QOpenGLWidget,
         protected QOpenGLFunctions
 {
@@ -33,6 +33,15 @@ protected:
 
 
 private:
+    bool refreshGrid = false;
+    float time;
+    int gridN;
+    float gridLx;
+    float gridLy;
+    float gridA = 0.3;
+    QVector2D gridDw = QVector2D(0.5, 0.5);
+    float gridVw = 0.8;
+
     std::string shaderName = "sinWave";
     std::string debugShaderName = "sinWaveNormalVis";
     bool normalVis = false;
@@ -41,16 +50,25 @@ private:
 
     void initData();
     void addShaderProgram(std::string shaderProgramName, std::string vertPath, std::string fragPath, std::string geoPath = "");
+    void setShaderAttribute(std::string vaoName);
+    void setShaderUniforms();
     void createBuffer();
 
+    void initOceanVertexes();
     void printContextInformation();
 
     //new version
     std::unordered_map<std::string, std::unique_ptr<QOpenGLShaderProgram>> shaderPrograms;
-    std::unique_ptr<QOpenGLBuffer> VBO;
-    std::unique_ptr<QOpenGLBuffer> EBO;
-    std::unique_ptr<QOpenGLVertexArrayObject> VAO;
+    std::unique_ptr<QOpenGLBuffer> VBO = nullptr;
+    std::unique_ptr<QOpenGLBuffer> EBO = nullptr;
+    std::unique_ptr<QOpenGLVertexArrayObject> VAO = nullptr;
 
+    //calculate ocean in cpu
+    std::unique_ptr<QOpenGLBuffer> oceanCpuVBO = nullptr;
+    std::unique_ptr<QOpenGLBuffer> oceanCpuEBO = nullptr;
+    std::unique_ptr<QOpenGLVertexArrayObject> oceanCpuVAO = nullptr;
+
+    std::unique_ptr<ocean_cpu> oceanGenerater = nullptr;
     std::vector<unsigned int> indexes;
     std::vector<float> datas;
     std::vector<float> waveParas;
